@@ -1,32 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../Navbar/NavBar";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const AddTask = () => {
+const EditTask = () => {
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Pending");
+  const { taskId } = useParams();
+  console.log("Params", taskId);
 
- 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, "0"); // Add leading zero if needed
+    let day = date.getDate().toString().padStart(2, "0"); // Add leading zero if needed
+    return `${year}-${month}-${day}`;
+  };
 
-  const handleSubmit = async(e) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchTask = await axios.get(
+          `http://localhost:1997/edittask/${taskId}`
+        );
+        console.log("TaskData edit ", fetchTask.data); // Log the response data to check its structure
+
+        const taskData = fetchTask.data.task;
+        const formattedDueDate = formatDate(taskData.taskDueDate);
+
+        setTaskName(taskData.taskName || "");
+        setDueDate(formattedDueDate || "");
+        setDescription(taskData.taskDescription || "");
+        setStatus(taskData.taskStatus || "Pending");
+      } catch (error) {
+        console.error("Error fetching task data:", error);
+      }
+    };
+    fetchData();
+  }, [taskId]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setTaskName("");
-    setDueDate("");
-    setDescription("");
-    setStatus("Pending");
     const taskData = {
       taskName,
       dueDate,
       description,
-      status
+      status,
+    };
+    try {
+      const response = await axios.put(
+        `http://localhost:1997/updatetask/${taskId}`,
+        taskData
+      );
+      console.log("Update response:", response);
+    } catch (error) {
+      console.error("Error updating task:", error);
     }
-    const response =await axios.post("http://localhost:1997/addtask",taskData)
-    console.log(response)
-
-
   };
 
   return (
@@ -38,7 +70,7 @@ const AddTask = () => {
           onSubmit={handleSubmit}
           className="bg-white p-4 rounded-md shadow-md"
         >
-          <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
+          <h2 className="text-xl font-semibold mb-4">Edit Task</h2>
           <div className="mb-4">
             <label htmlFor="taskName" className="block mb-2 font-semibold">
               Task Name
@@ -93,7 +125,7 @@ const AddTask = () => {
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md block mx-auto"
           >
-            Add Task
+            Update Task
           </button>
         </form>
       </div>
@@ -101,4 +133,4 @@ const AddTask = () => {
   );
 };
 
-export default AddTask;
+export default EditTask;

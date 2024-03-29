@@ -2,11 +2,15 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Features/userAuth";
 
 const Login = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -35,6 +39,7 @@ const Login = () => {
       console.log(response);
 
       if (response.status === 200) {
+        dispatch(setUser(response.data.user.userName));
         toast.success(response.data.message);
         setTimeout(() => {
           navigate("/dashboard");
@@ -49,7 +54,7 @@ const Login = () => {
 
   return (
     <div className="bg-gray-100 h-screen flex justify-center items-center">
-          <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md max-w-sm w-full"
