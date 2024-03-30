@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import Navbar from "../Navbar/NavBar";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
 
 const EditTask = () => {
+  const navigate = useNavigate()
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [description, setDescription] = useState("");
@@ -14,8 +16,8 @@ const EditTask = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    let month = (1 + date.getMonth()).toString().padStart(2, "0"); // Add leading zero if needed
-    let day = date.getDate().toString().padStart(2, "0"); // Add leading zero if needed
+    let month = (1 + date.getMonth()).toString().padStart(2, "0"); 
+    let day = date.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -25,7 +27,7 @@ const EditTask = () => {
         const fetchTask = await axios.get(
           `http://localhost:1997/edittask/${taskId}`
         );
-        console.log("TaskData edit ", fetchTask.data); // Log the response data to check its structure
+        console.log("TaskData edit ", fetchTask.data);
 
         const taskData = fetchTask.data.task;
         const formattedDueDate = formatDate(taskData.taskDueDate);
@@ -56,6 +58,16 @@ const EditTask = () => {
         taskData
       );
       console.log("Update response:", response);
+      if(response.status ===200){
+        toast.success("Task updated successfully")
+        
+        setTimeout(() => {
+          navigate("/dashboard")
+        }, 1500);
+
+        
+      }
+     
     } catch (error) {
       console.error("Error updating task:", error);
     }
@@ -66,6 +78,7 @@ const EditTask = () => {
       <Navbar />
 
       <div className="max-w-md mx-auto mt-20">
+      <Toaster position="top-center" reverseOrder={false} />
         <form
           onSubmit={handleSubmit}
           className="bg-white p-4 rounded-md shadow-md"

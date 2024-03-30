@@ -22,9 +22,8 @@ const TaskViews = () => {
   const [tasks, setTasks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const user = localStorage.getItem('user')
-  if(!user) return <Navigate to ="/"/>
-
+  const user = localStorage.getItem("user");
+  if (!user) return <Navigate to="/" />;
 
   const tasksPerPage = 3;
   const totalTasks = tasks ? tasks.length : 0;

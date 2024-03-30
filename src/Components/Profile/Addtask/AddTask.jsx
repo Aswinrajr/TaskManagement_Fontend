@@ -1,16 +1,17 @@
 import { useState } from "react";
 import Navbar from "../Navbar/NavBar";
 import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Pending");
+  const navigate = useNavigate();
 
- 
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setTaskName("");
@@ -21,12 +22,26 @@ const AddTask = () => {
       taskName,
       dueDate,
       description,
-      status
+      status,
+    };
+    const response = await axios.post(
+      "http://localhost:1997/addtask",
+      taskData
+    );
+    console.log("response");
+    try{
+      if (response.status === 201) {
+        console.log("Task created successfull");
+        toast.success(response.data.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      }
+
+    }catch(err){
+      console.log("Error in ading task",err)
     }
-    const response =await axios.post("http://localhost:1997/addtask",taskData)
-    console.log(response)
-
-
+    
   };
 
   return (
@@ -34,6 +49,7 @@ const AddTask = () => {
       <Navbar />
 
       <div className="max-w-md mx-auto mt-20">
+        <Toaster position="top-center" reverseOrder={false} />
         <form
           onSubmit={handleSubmit}
           className="bg-white p-4 rounded-md shadow-md"

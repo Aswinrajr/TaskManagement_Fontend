@@ -6,12 +6,13 @@ const Navbar = () => {
   const dispath = useDispatch();
   const navigate = useNavigate();
   const userName = localStorage.getItem("user");
-  if (!userName) return <Navigate to="/" />;
-
-
+  console.log("Navbar user",userName)
   const email = JSON.parse(userName);
   const name = email.user;
   console.log(name);
+  if (!name) return <Navigate to="/" />;
+
+
   if (!name.length > 0) return <Navigate to="/" />;
 
   const onLogout = () => {
@@ -20,6 +21,7 @@ const Navbar = () => {
   };
   return (
     <nav className="bg-gray-800 p-4 flex justify-between items-center">
+      
       <div className="text-white font-bold text-xl">Task Manager</div>
       <div className="flex items-center space-x-4">
         {userName && <div className="text-white mr-4">{name}</div>}
