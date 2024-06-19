@@ -10,6 +10,8 @@ const AddTask = () => {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("Pending");
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ const AddTask = () => {
       status,
     };
     const response = await axios.post(
-      "http://localhost:1997/addtask",
+      `${baseUrl}/addtask`,
       taskData
     );
     console.log("response");

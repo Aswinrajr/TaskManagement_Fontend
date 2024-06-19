@@ -5,10 +5,12 @@ import { toast, Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "../Features/userAuth";
 
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const baseUrl = import.meta.env.VITE_BASE_URL
 
   const dispatch = useDispatch();
 
@@ -33,7 +35,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:1997/login",
+        `${baseUrl}/login`,
         userData
       );
       console.log(response);

@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
 const EditTask = () => {
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
   const navigate = useNavigate()
   const [taskName, setTaskName] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -25,7 +27,7 @@ const EditTask = () => {
     const fetchData = async () => {
       try {
         const fetchTask = await axios.get(
-          `http://localhost:1997/edittask/${taskId}`
+          `${baseUrl}/edittask/${taskId}`
         );
         console.log("TaskData edit ", fetchTask.data);
 
@@ -54,7 +56,7 @@ const EditTask = () => {
     };
     try {
       const response = await axios.put(
-        `http://localhost:1997/updatetask/${taskId}`,
+        `${baseUrl}/updatetask/${taskId}`,
         taskData
       );
       console.log("Update response:", response);

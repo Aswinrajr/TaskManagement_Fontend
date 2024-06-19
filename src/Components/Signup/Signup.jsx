@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
 const Signup = () => {
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +47,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:1997/signup",
+        `${baseUrl}/signup`,
         userData
       );
       console.log(response.data);

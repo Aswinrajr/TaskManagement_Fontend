@@ -7,10 +7,12 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const TaskViews = () => {
+  const baseUrl = import.meta.env.VITE_BASE_URL
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:1997/getalltask");
+        const response = await axios.get(`${baseUrl}/getalltask`);
         setTasks(response.data.tasks);
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -59,7 +61,7 @@ const TaskViews = () => {
     try {
       console.log(taskId);
       const response = await axios.put(
-        `http://localhost:1997/softdelete/${taskId}`
+        `${baseUrl}/softdelete/${taskId}`
       );
       console.log(response);
 
