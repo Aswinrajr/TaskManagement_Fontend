@@ -7,7 +7,7 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const TaskViews = () => {
-  const baseUrl = import.meta.env.VITE_BASE_URL
+  const baseUrl = import.meta.env.VITE_TASK_MANAGER_BASE_URL
 
   useEffect(() => {
     const fetchData = async () => {

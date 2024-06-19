@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
 const Signup = () => {
-  const baseUrl = import.meta.env.VITE_BASE_URL
+  const baseUrl = import.meta.env.VITE_TASK_MANAGER_BASE_URL
 
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");

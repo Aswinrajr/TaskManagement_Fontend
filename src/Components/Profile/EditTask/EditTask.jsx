@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 
 const EditTask = () => {
-  const baseUrl = import.meta.env.VITE_BASE_URL
+  const baseUrl = import.meta.env.VITE_TASK_MANAGER_BASE_URL
 
   const navigate = useNavigate()
   const [taskName, setTaskName] = useState("");

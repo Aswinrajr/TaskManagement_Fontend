@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const baseUrl = import.meta.env.VITE_BASE_URL
+  const baseUrl = import.meta.env.VITE_TASK_MANAGER_BASE_URL
 
   const dispatch = useDispatch();
 
